@@ -124,8 +124,8 @@ async componentWillMount() {
 <View><Button
   onPress= {() => {
           
-    this.props.navigation.navigate('Chat',{
-      name: this.state.profile
+    this.props.navigation.navigate('AdminChat',{
+      profile: this.state.profile
     })
   }}
   title="Admin Chat"

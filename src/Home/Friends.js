@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
 import { Contacts, Permissions } from 'expo'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
@@ -22,7 +23,8 @@ class Friends  extends Component {
         list: [],
         usr: [],
         conts: [],
-        done: null
+        done: null,
+        profile: {}
       
     }
   }
@@ -39,7 +41,10 @@ class Friends  extends Component {
 
 getContact = async () =>{
 const { data } = await Contacts.getContactsAsync({});
-  
+let ss = await AsyncStorage.getItem('profile')
+let profile = await JSON.parse(ss)
+this.setState({profile})
+
           if (data.length > 0) {
               
               this.setState({
@@ -51,7 +56,7 @@ const { data } = await Contacts.getContactsAsync({});
               
               firebase.database().ref(`users`).on('child_added', snap =>{
                   
-                  if(this.state.conts.includes(snap.val().phoneNum) && snap.val().services){
+                  if(snap.val().uid != profile.uid && this.state.conts.includes(snap.val().phoneNum) && snap.val().services){
                     
                     this.state.usr.push(snap.val())
                     this.setState({

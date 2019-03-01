@@ -16,9 +16,9 @@ import { Contacts, Permissions } from 'expo'
 import firebase from '../../Config/firebase'
 
 
-export default class Chat extends Component {
+export default class AdminChat extends Component {
   static navigationOptions = {
-    title: 'Chat',
+    title: 'Admin Chat',
   };
   constructor(props) {
     super(props);
@@ -36,35 +36,37 @@ this.getProfile()
 
 }
   getProfile = async () => {
-
-    let ss = await AsyncStorage.getItem('profile')
-    let profile = await JSON.parse(ss)
+    let profile = this.props.navigation.getParam('profile');
+    
+    
     console.log('profile agaya', profile.uid)
-      this.setState({profile, data: []})
+      this.setState({profile, data: []}, () => {
 
-      
-    const job = this.props.navigation.getParam('chatData');
-    this.setState({
-      job
-    }, () =>{
+
+        firebase.database().ref(`users/${profile.uid}/adminchat`).on('child_added', snap => {
+            console.log('msg', snap.val().message)
+              this.state.data.push({
+                id: snap.key,
+                message: snap.val().message,
+                type: snap.val().uid == profile.uid ? 'out' : 'in',
+                date: snap.val().time
+              })
+              
+              this.setState({
+                done: true? false: true
+              })
+              // this.refs.scroll.scroll
+          })
+
+
+      })
         
-        firebase.database().ref(`jo b/${Object.keys(job)[0]}/chat`).on('child_added', snap => {
-          console.log('msg')
-            this.state.data.push({
-              id: snap.key,
-              message: snap.val().message,
-              type: snap.val().uid == profile.uid ? 'out' : 'in',
-              date: snap.val().time
-            })
-            
-            this.setState({
-              done: true? false: true
-            })
-            // this.refs.scroll.scroll
-        })
 
         
-    })
+
+    
+        
+       
 
     
   
@@ -83,7 +85,7 @@ this.getProfile()
   }
 
   render() {
-      const { job, msg, profile } = this.state;
+      const {  msg, profile } = this.state;
     return (
       <View style={styles.container}>
         <FlatList style={styles.list}
@@ -117,19 +119,23 @@ this.getProfile()
             <TextInput style={styles.inputs}
                 placeholder="Write a message..."
                 underlineColorAndroid='transparent'
+                value={msg}
                 onChangeText={(msg) => this.setState({msg})}/>
+                
           </View>
 
             <TouchableOpacity style={styles.btnSend} onPress={() => {
-                firebase.database().ref(`job/${Object.keys(job)[0]}/chat`).push().set({
+                firebase.database().ref(`users/${profile.uid}/adminchat`).push().set({
                   message: msg,
                   uid: profile.uid,
                   time: -Date.now()
                 })
-                this.render()
+                
                 this.setState({
-                  done: true
+                  done: true,
+                  msg: ''
                 })
+                this.render()
             }}>
               <Image source={{uri:"https://png.icons8.com/small/75/ffffff/filled-sent.png"}} style={styles.iconSend}  />
             </TouchableOpacity>

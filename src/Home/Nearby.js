@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
 import { Contacts, Permissions, Location } from 'expo'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
@@ -20,7 +21,8 @@ export default class Nearby extends Component {
     this.state = {
         list: [],
         coords: {},
-        done: null
+        done: null,
+        profile: {}
       
     }
   }
@@ -75,12 +77,15 @@ withinRadius(point, interest) {
 getUsers = async () =>{
 
   
-              
+  let ss = await AsyncStorage.getItem('profile')
+  let profile = await JSON.parse(ss)
+  this.setState({profile})
+
               firebase.database().ref(`users`).on('child_added', snap =>{
                   
                   
 
-                  if(snap.val().coords && this.withinRadius(this.state.coords,snap.val().coords) && snap.val().services){
+                  if(snap.val().uid != profile.uid && snap.val().coords && this.withinRadius(this.state.coords,snap.val().coords) && snap.val().services){
                     
                     this.state.list.push(snap.val())
                     

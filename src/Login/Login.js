@@ -56,25 +56,33 @@ export default class Login extends React.Component {
                               email,
                               photoURL: photoURL + '?type=large',
                               init: 1,
-                              uid
+                              uid,
+                              status: true
                           });
                         await AsyncStorage.setItem('profile',JSON.stringify({
                               name: displayName,
                               email,
                               photoURL: photoURL + '?type=large',
                               init: 1,
-                              uid
+                              uid,
+                              status: true
                         }), (e) => console.log(e))
                         console.log('init', snap.val())
                         this.props.navigation.replace('Profile')
                     }else{
                            firebase.database().ref("users/" + uid).once('value', async snap =>{
-                                console.log('not', snap.val())
-                                await AsyncStorage.setItem('profile',JSON.stringify(snap.val()))
+                                if(snap.val().status != true){
+                                  alert(`Your account is deactivated`);
+                                }else{
+                                  
+                                  await AsyncStorage.setItem('profile',JSON.stringify(snap.val()))
+                                  this.props.navigation.replace('Menu')
+                                }
+                                
                               
 
                            })
-                           this.props.navigation.replace('Menu')
+                          
 
                     }
 

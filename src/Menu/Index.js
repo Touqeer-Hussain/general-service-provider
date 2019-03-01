@@ -2,12 +2,13 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import MyProfile from './myProfile';
-import Jobs from './Jobs';
+import Search from './Search';
 import Home from '../Home/Home'
 import Jobslist from './JobsList'
 
 
 class Index extends React.Component {
+  
   render() {
     return (
       <View >
@@ -19,12 +20,18 @@ class Index extends React.Component {
 
 const TabNavigator = createBottomTabNavigator({
         Home,
-        MyProfile: {
-          screen: MyProfile,
-          title: 'Profile'
-          
-        },
-        Jobslist
+        Search,
+        Jobslist,
+
+          MyProfile: {
+            screen: MyProfile,
+            navigationOptions : {
+              title: 'Profile',
+              
+            }
+            
+          },
+        
         },{
           initialRouteName: 'Home'
         });

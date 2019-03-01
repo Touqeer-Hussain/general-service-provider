@@ -12,7 +12,9 @@ class Home extends React.Component {
   }
   render() {
     return (
-      <TabNavigator screenProps={{rootNav: this.props.navigation}}/>
+      
+        <TabNavigator screenProps={{rootNav: this.props.navigation}}/>
+      
     );
   }
 }

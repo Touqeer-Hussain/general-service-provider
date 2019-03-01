@@ -41,7 +41,7 @@ console.log('profile agaya', profile)
 async  componentDidMount(){
  this.getProfile() 
    
-      firebase.database().ref(`services`).once('value', snap => {
+      firebase.database().ref(`services/list`).once('value', snap => {
         console.log(snap.val())
           this.setState({
             items: [

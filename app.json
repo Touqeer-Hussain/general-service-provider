@@ -1,10 +1,16 @@
 {
   "expo": {
-    "name": "gsp",
+    "name": "General Service",
     "description": "No description",
     "slug": "snack-ryv2F2KrN",
     "privacy": "unlisted",
     "sdkVersion": "32.0.0",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.saylani.gsp"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
@@ -21,8 +27,6 @@
         "xml"
       ]
     },
-    "ios": {
-      "supportsTablet": true
-    }
+    "githubUrl": "https://github.com/Touqeer-Hussain/general-service-provider"
   }
 }

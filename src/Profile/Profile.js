@@ -176,10 +176,10 @@ console.log('profile agaya', profile)
 </View>
 <View><Button
   onPress={() => {
-    firebase.database().ref(`users/${this.state.profile.uid}/`).update({
+    firebase.database().ref(`users/${this.state.profile.uid}`).update({
      phoneNum: this.state.phoneNum
    })
-   this.props.navigation.navigate('MapPosition')
+   this.props.navigation.replace('MapPosition')
   }}
   title="Next"
 /></View>

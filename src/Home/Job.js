@@ -157,7 +157,10 @@ async componentWillMount() {
             rId: this.state.profile.uid,
             sId: my.uid,
             status: 'Pending'
+        }).then(() => {
+          this.props.navigation.goBack()
         })
+
   }}
   title="Confirm"
 /></View>

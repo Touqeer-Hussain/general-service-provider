@@ -16,6 +16,7 @@ import Home from './src/Home/Home'
 import Jobdetail from './src/Home/Jobdetail';
 import Directions from './src/Home/Directions';
 import Chat from './src/Home/Chat'
+import AdminChat from './src/Home/AdminChat'
 
 
 
@@ -39,10 +40,10 @@ const AppNavigator = createAppContainer(
         Contact,
         Menu: {
           screen: Menu,
-          headerMode: 'none',
-          navigationOptions: {
-              headerVisible: false,
+          navigationOptions:{
+            title: 'Home'
           }
+          
         },
         Offer,
         Job,
@@ -50,10 +51,11 @@ const AppNavigator = createAppContainer(
         Jobdetail,
         Directions,
         Chat,
+        AdminChat
         
       },
       {
-        initialRouteName: firebase.auth().currentUser ? 'Menu' : 'Login'
+        initialRouteName: firebase.auth().currentUser ? 'Menu' : 'Login' 
       
         }
       

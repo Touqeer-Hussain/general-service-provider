@@ -19,7 +19,8 @@ constructor(props) {
       job: {},
       done: null,
       dealer: {},
-      isVisible: false
+      isVisible: false,
+      count: 0
     }
   }
   
@@ -63,6 +64,24 @@ async componentWillMount() {
       })
       console.log(this.state.job[Object.keys(this.state.job)[0]].descrip)
     })
+
+
+    var fate = new Date();
+    var year = fate.toString().split(' ')[3];
+    var month = fate.toString().split(' ')[1];
+    var date = fate.toString().split(' ')[2]
+
+console.log(`graph/${year}/${month}/${date}`)
+firebase.database().ref(`graph/${year}/${month}/${date}`).once('value', snap => {
+  
+  if(snap.val()){
+  this.setState({
+    count: snap.val()
+  })
+  }
+    
+})
+
     
 }
     
@@ -112,6 +131,7 @@ async componentWillMount() {
                           firebase.database().ref(`users/${dealer.uid}/rating/${profile.uid}`).set({
                             'rate': this.state.rate
                           })
+                          alert(`Rated! ${this.state.rate} Stars`)
                         })
                     }
                   }
@@ -178,16 +198,25 @@ async componentWillMount() {
 
 { 
 
-job[Object.keys(job)[0]].status == 'Pending' &&
+(job[Object.keys(job)[0]].status == 'Pending' && job[Object.keys(job)[0]].rId != profile.uid) &&
 <View>
   
   
   <Button
   onPress= {() => {
-          
     firebase.database().ref(`job/${Object.keys(job)[0]}`).update({
       status: 'Accepted'
     })
+
+    var fate = new Date();
+    var year = fate.toString().split(' ')[3];
+    var month = fate.toString().split(' ')[1];
+    var date = fate.toString().split(' ')[2]
+
+  
+firebase.database().ref(`graph/${year}/${month}/${date}`).set(this.state.count + 1)
+  
+    
     this.setState({
       done: true? false: true
     })
@@ -224,6 +253,7 @@ job[Object.keys(job)[0]].status == 'Pending' &&
     this.setState({
       isVisible: true
     })
+    
     
     
   }}
@@ -274,6 +304,7 @@ job[Object.keys(job)[0]].status == 'Pending' &&
     this.setState({
       isVisible: true
     })
+    
   }}
   title="Rate"
 />
