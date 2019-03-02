@@ -1,31 +1,22 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
+import {createAppContainer, createMaterialTopTabNavigator} from 'react-navigation';
 import Friends from './Friends';
-import Nearby from './Nearby'
-
-
+import Nearby from './Nearby';
 
 class Home extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
   }
   render() {
-    return (
-      
-        <TabNavigator screenProps={{rootNav: this.props.navigation}}/>
-      
-    );
+    return (<TabNavigator screenProps={{
+      rootNav: this.props.navigation
+    }}/>);
   }
 }
 
 const TabNavigator = createAppContainer(createMaterialTopTabNavigator({
   Nearby,
-  Friends,
-  
-      },
-      {
-        initialRouteName: "Friends",
-      }));
+  Friends
+}, {initialRouteName: "Friends"}));
 
 export default Home

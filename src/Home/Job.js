@@ -1,8 +1,7 @@
 import React from 'react';
-import { Facebook, ImagePicker } from 'expo';
-import { StyleSheet, View, AsyncStorage, ScrollView, Picker} from 'react-native';
+import { AsyncStorage, Picker, View } from 'react-native';
+import { Button, Input } from 'react-native-elements';
 import firebase from '../../Config/firebase';
-import { Avatar, Divider, Input, Text, Button, Icon, Rating  } from 'react-native-elements';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class Job extends React.Component {
